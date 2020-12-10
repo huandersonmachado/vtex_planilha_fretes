@@ -1,3 +1,5 @@
+import 'module-alias/register';
+
 import JadLogRepository from './App/Services/Carriers/JadLogRepository';
 
 const teste = new JadLogRepository();

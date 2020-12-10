@@ -1,4 +1,4 @@
-import FreightFormat from './../../Support/FreightFormat';
+import FreightFormat from '@src/App/Support/FreightFormat';
 
 export default class JadLogHydrator {
     parse(data: Object) {

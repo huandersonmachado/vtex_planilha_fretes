@@ -1,5 +1,5 @@
 import JadLogHydrator from './JadLogHydrator';
-import CarriersRepositoryInterface from '../../Support/Carriers/CarriersRepositoryInterface';
+import CarriersRepositoryInterface from '@src/App/Support/Carriers/CarriersRepositoryInterface';
 
 export default class JadLogRepository implements CarriersRepositoryInterface {
 
