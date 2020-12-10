@@ -1,4 +1,4 @@
-class FreightFormat {
+export default class FreightFormat {
     public zipCodeZtart!: String;
     public ZipCodeEnd!: String;
     public polygonName!: String;
