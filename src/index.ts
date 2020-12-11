@@ -1,7 +1,10 @@
 import 'module-alias/register';
 
-import JadLogRepository from './App/Services/Carriers/JadLogRepository';
+import fs from 'fs';
 
-const teste = new JadLogRepository();
+import Transform from './App/Services/Cep/Transform';
 
-console.log(teste.fetchValueFreight())
+(async() => {
+   const t = new Transform()
+   console.log(t.handlePlanilha());
+})()

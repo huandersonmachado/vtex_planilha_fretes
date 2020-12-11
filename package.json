@@ -5,7 +5,9 @@
   "repository": "https://github.com/gitpod-io/NextSimpleStarter.git",
   "author": "huandersonmachado <huandersonmachado@gmail.com>",
   "license": "MIT",
+  "type": "module",
   "devDependencies": {
+    "@types/node": "^14.14.12",
     "@typescript-eslint/eslint-plugin": "^4.9.1",
     "@typescript-eslint/parser": "^4.9.1",
     "eslint": "^7.15.0",
@@ -19,13 +21,14 @@
     "typescript": "^4.1.2"
   },
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/index.ts"
+    "dev": "ts-node-dev --respawn --transpile-only --ignore-watch  node_modules src/index.ts"
   },
   "dependencies": {
+    "csvtojson": "^2.0.10",
     "express": "^4.17.1",
     "module-alias": "^2.2.2"
   },
   "_moduleAliases": {
-      "@src": "dist"
+    "@src": "dist"
   }
 }
