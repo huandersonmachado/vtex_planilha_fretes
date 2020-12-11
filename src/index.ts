@@ -6,5 +6,5 @@ import Transform from './App/Services/Cep/Transform';
 
 (async() => {
    const t = new Transform()
-   console.log(t.handlePlanilha());
+   console.log(await t.handlePlanilha());
 })()

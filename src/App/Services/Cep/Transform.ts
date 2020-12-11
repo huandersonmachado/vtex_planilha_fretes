@@ -1,31 +1,28 @@
-import { createReadStream } from 'fs';
-import { pipeline } from 'stream';
 import path from 'path';
+import fs from 'fs';
 
 import csvtojson from 'csvtojson';
-
 
 export default class Transform {
 
     async handlePlanilha() {
+
       const faixasJson = await this.convertToJson();
       const faixasParsed = this.handleFaixasDeCep(faixasJson);
-      console.log(faixasParsed)
+      await this.saveFile(faixasParsed);
+      return true;
     }
 
-    readStream() {
-        return createReadStream(path.resolve(__dirname, './../../../dataset/MelhorEnvioFaixas.csv'));
+    convertToJson() {
+        return csvtojson({ delimiter: ';' }).fromFile(path.resolve(__dirname, './../../../dataset/MelhorEnvioFaixas.csv'))
     }
 
-    async convertToJson() {
-        return csvtojson({ delimiter: ';' }).fromStream(this.readStream());
-    }
-
-    async handleFaixasDeCep(faixasJson: Array<any>) {
+    handleFaixasDeCep(faixasJson: Array<any>) {
         const faixas: any = [];
 
         for (const faixa of faixasJson) {
-            const faixaExistente = faixas.filter((faixa: any) => faixa.ZipCodeStart == faixa.ZipCodeStart);
+            
+            const faixaExistente = faixas.filter((faixaImportada: any) => faixa.ZipCodeStart == faixaImportada.ZipCodeStart);
             if (faixaExistente.length == 0) {
                 faixas.push({
                     ZipCodeStart: faixa.ZipCodeStart,
@@ -36,4 +33,9 @@ export default class Transform {
 
         return faixas;
     }
+
+    async saveFile(faixasParsed: Array<any>) {
+        return fs.writeFileSync(path.resolve(__dirname, './../../../dataset/faixasDeCep.json'), JSON.stringify(faixasParsed));
+    }
+
 }
