@@ -1,8 +1,8 @@
 export default interface JadLogParamsInterface {
   frete: [
     {
-      cepori: string;
-      cepdes: string;
+      cepori: String;
+      cepdes: String;
       peso: number;
       cnpj: string;
       modalidade: number;

@@ -2,8 +2,8 @@ export default interface FreightFormat {
     ZipCodeStart: String;
     ZipCodeEnd: String;
     polygonName: String;
-    weightStart: String;
-    weightEnd: String;
+    weightStart: number;
+    weightEnd: number;
     absoluteMoneyCost: String;
     pricePercent: String;
     maxVolume: String;
