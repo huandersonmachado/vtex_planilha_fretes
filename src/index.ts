@@ -1,8 +1,9 @@
+import 'dotenv/config';
 import 'module-alias/register';
 
-import Transform from './App/Services/Peso/Transform';
+import JadLogRepository from './App/Services/Carriers/JadLog/JadLogRepository';
 
 (async () => {
-  const t = new Transform();
-  console.log(await t.handleFaixasDePeso());
+  const j = new JadLogRepository();
+  console.log(j.fetchData());
 })();

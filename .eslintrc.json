@@ -30,7 +30,11 @@
       {
         "ts": "never"
       }
-    ]
+    ],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "class-methods-use-this": "off",
+    "no-restricted-syntax": "off",
+    "no-await-in-loop": "off",
   },
   "settings": {
     "import/resolver": {
