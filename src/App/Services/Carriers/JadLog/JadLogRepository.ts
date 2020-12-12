@@ -2,6 +2,11 @@
 import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
+
+import debugApp from 'debug';
+
+const debug = debugApp('app:ceps');
+
 import CarriersRepositoryInterface from '@src/App/Support/Carriers/CarriersRepositoryInterface';
 
 import JadLogParamsInterface from './JadLogParamsInterface';
@@ -35,7 +40,7 @@ export default class JadLogRepository implements CarriersRepositoryInterface {
         const response = await this.getFreightValue({
           frete: [
             {
-              cepdes: `${cep.ZipCodeEnd}0`,
+              cepdes: cep.ZipCodeEnd,
               cepori: '36900025',
               cnpj: '02482104000',
               modalidade: 9,
@@ -47,7 +52,6 @@ export default class JadLogRepository implements CarriersRepositoryInterface {
             },
           ],
         });
-
         const hasError = this.handleResponseData(response.data);
 
         if (hasError) {
@@ -58,8 +62,8 @@ export default class JadLogRepository implements CarriersRepositoryInterface {
         } else {
             const sheetLine = this.hydrator.parse({
                 response: response.data.frete[0],
-                zipCodeStart:  cep.ZipCodeStart + '0',
-                zipCodeEnd: cep.ZipCodeEnd + '0',
+                zipCodeStart:  cep.ZipCodeStart,
+                zipCodeEnd: cep.ZipCodeEnd,
                 weightEnd: peso.weightEnd,
                 weightStart: peso.weightStart,
             });

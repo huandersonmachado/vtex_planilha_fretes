@@ -27,8 +27,8 @@ export default class Transform {
       );
       if (faixaExistente.length == 0) {
         faixas.push({
-          ZipCodeStart: faixa.ZipCodeStart,
-          ZipCodeEnd: faixa.ZipCodeEnd,
+          ZipCodeStart: (faixa.ZipCodeStart.length == 7) ? `${faixa.ZipCodeStart}0` : faixa.ZipCodeStart,
+          ZipCodeEnd: (faixa.ZipCodeEnd.length == 7) ? `${faixa.ZipCodeEnd}0` : faixa.ZipCodeEnd,
         });
       }
     }
