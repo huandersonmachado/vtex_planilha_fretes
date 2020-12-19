@@ -3,6 +3,7 @@ import path from 'path';
 
 import CarriersRepositoryInterface from '@src/App/Support/Carriers/CarriersRepositoryInterface';
 import debugApp from 'debug';
+import FreightFormat from '@src/App/Support/FreightFormat';
 
 const debug = debugApp('app:ceps');
 
@@ -14,6 +15,11 @@ interface EmpresaDadosInterface {
 }
 
 export default class CalculaFrete {
+
+    private faixasImportadas: FreightFormat[] = [];
+
+    private faixasNaoImportadas: [] = []
+
     private carrier: CarriersRepositoryInterface;
 
     constructor(carrier: CarriersRepositoryInterface) {
@@ -21,33 +27,48 @@ export default class CalculaFrete {
     }
 
     async getValueFreight({ cepOrigem, cnpj, tipoDeFrete, valorDaColeta }: EmpresaDadosInterface) {
-        const { faixasDeCep, faixaDePeso } = await this.getFaixas();
-        const faixasCepJson = JSON.parse(faixasDeCep.toString());
-        const faixasPesoJson = JSON.parse(faixaDePeso.toString());
+      const { faixasDeCep, faixaDePeso } = await this.getFaixas();
+      const faixasCepJson = JSON.parse(faixasDeCep.toString());
+      const faixasPesoJson = JSON.parse(faixaDePeso.toString());
     
-        const faixasImportadas = []; 
-        const faixasNaoImportadas = [];
-    
-        for (const cep of faixasCepJson) {
-          for (const peso of faixasPesoJson) {
-            const responseCarrier = await this.carrier.fetchValueFreight(
-                cep.ZipCodeStart, 
-                cep.ZipCodeEnd, 
-                cepOrigem,
-                9, 
-                peso.weightStart, 
-                peso.weightEnd
-            );
-            if (responseCarrier == false) {
-                faixasNaoImportadas.push({
-                    zipCodeStart: cep.ZipCodeStart,
-                    ZipCodeEnd: cep.ZipCodeEnd
-                });
-            } else {
-                faixasImportadas.push(responseCarrier);
-            }
+      for (const cep of faixasCepJson) {
+        for (const peso of faixasPesoJson) {
+          const responseCarrier = await this.carrier.fetchValueFreight(
+              cep.ZipCodeStart, 
+              cep.ZipCodeEnd, 
+              cepOrigem,
+              9, 
+              peso.weightStart, 
+              peso.weightEnd
+          );
+          if (responseCarrier == false) {
+            this.setFaixaNaoImportada(cep.ZipCodeStart, cep.ZipCodeEnd)
+          } else {
+            this.setFaixaImportada(<FreightFormat>responseCarrier);
           }
         }
+      }
+    }
+
+    private setFaixaImportada(lineSheet: FreightFormat) {
+      this.faixasImportadas.push(lineSheet);
+      return this;
+    }
+
+    private setFaixaNaoImportada(zipCodeStart: String, zipCodeEnd: String) {
+      this.faixasNaoImportadas.push({
+        zipCodeStart: zipCodeStart,
+        zipCodeEnd: zipCodeEnd,
+      })
+      return this;
+    }
+
+    getFaixasImportadas() {
+      return this.faixasImportadas;
+    }
+
+    getFaixasNaoImportadas() {
+      return this.faixasNaoImportadas;
     }
 
     async getFaixas() {

@@ -17,7 +17,7 @@ export default class JadLogRepository implements CarriersRepositoryInterface {
     this.hydrator = new JadLogHydrator();
   }
 
-  async fetchValueFreight(zipCodeStart: String, zipCodeEnd: String, cepOrigem: String, modalidade: number, weightStart: number, weightEnd: number) {
+  async fetchValueFreight(zipCodeStart: String, zipCodeEnd: String, cepOrigem: String, modalidade: Number, weightStart: Number, weightEnd: Number) {
     
     const response = await this.getFreightValue({
       frete: [

@@ -1,11 +1,11 @@
 import FreightFormat from '@src/App/Support/FreightFormat';
 
 interface JadLogHydratorInterface {
-    response: object, 
+    response: Object, 
     zipCodeStart: String, 
     zipCodeEnd:String,
-    weightEnd: number, 
-    weightStart: number
+    weightEnd: Number, 
+    weightStart: Number
 }
 
 export default class JadLogHydrator {

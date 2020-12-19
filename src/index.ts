@@ -31,4 +31,6 @@ function handleTransportadoras() {
     tipoDeFrete: 9,
     valorDaColeta: 0.00
   });
+
+  debug(calculaFrete.getFaixasImportadas());
 }

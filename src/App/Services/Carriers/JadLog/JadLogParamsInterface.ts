@@ -3,13 +3,13 @@ export default interface JadLogParamsInterface {
     {
       cepori: String;
       cepdes: String;
-      peso: number;
-      cnpj: string;
-      modalidade: number;
-      tpentrega: string;
-      tpseguro: string;
-      vldeclarado: number;
-      vlcoleta: number;
+      peso: Number;
+      cnpj: String;
+      modalidade: Number;
+      tpentrega: String;
+      tpseguro: String;
+      vldeclarado: Number;
+      vlcoleta: Number;
     },
   ];
 }
