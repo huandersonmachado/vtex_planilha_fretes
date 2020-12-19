@@ -4,8 +4,8 @@ interface JadLogHydratorInterface {
     response: Object, 
     zipCodeStart: String, 
     zipCodeEnd:String,
-    weightEnd: Number, 
-    weightStart: Number
+    weightEnd: number, 
+    weightStart: number
 }
 
 export default class JadLogHydrator {

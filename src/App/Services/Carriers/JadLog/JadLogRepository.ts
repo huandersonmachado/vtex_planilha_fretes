@@ -6,6 +6,7 @@ import debugApp from 'debug';
 const debug = debugApp('app:ceps');
 
 import CarriersRepositoryInterface from '@src/App/Support/Carriers/CarriersRepositoryInterface';
+import FreightFormat from '@src/App/Support/FreightFormat';
 
 import JadLogParamsInterface from './JadLogParamsInterface';
 import JadLogHydrator from './JadLogHydrator';
@@ -36,19 +37,17 @@ export default class JadLogRepository implements CarriersRepositoryInterface {
     });
     const hasError = this.handleResponseData(response.data);
 
-    if (hasError) {
-        return false;
-    } else {
-        const lineSheet = this.hydrator.parse({
-          response: response.data.frete[0],
-          zipCodeStart:  zipCodeStart,
-          zipCodeEnd: zipCodeEnd,
-          weightEnd: weightEnd,
-          weightStart: weightStart,
-        });
+    if (hasError)
+        return <Boolean>false;
 
-        return lineSheet;
-    }
+    return <FreightFormat>this.hydrator.parse({
+      response: response.data.frete[0],
+      zipCodeStart:  zipCodeStart,
+      zipCodeEnd: zipCodeEnd,
+      weightEnd: weightEnd,
+      weightStart: weightStart,
+    });
+
   }
 
   async getFreightValue(params: JadLogParamsInterface) {
