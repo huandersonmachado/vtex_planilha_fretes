@@ -44,10 +44,13 @@ export default class CalculaFrete {
           if (responseCarrier == false) {
             this.setFaixaNaoImportada(cep.ZipCodeStart, cep.ZipCodeEnd)
           } else {
+            debug(`Faixa Importada Cep: ${cep.ZipCodeEnd} - Peso ${peso.weightEnd}`, );
             this.setFaixaImportada(<FreightFormat>responseCarrier);
           }
         }
       }
+
+      fs.writeFileSync('./faixasImportadas.json', JSON.stringify(this.getFaixasImportadas()))
     }
 
     private setFaixaImportada(lineSheet: FreightFormat) {

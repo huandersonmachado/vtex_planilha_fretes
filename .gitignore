@@ -113,6 +113,8 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
+faixasImportadas.json
+
 # End of https://www.toptal.com/developers/gitignore/api/node
 
 src/dataset

@@ -20,33 +20,38 @@ export default class JadLogRepository implements CarriersRepositoryInterface {
 
   async fetchValueFreight(zipCodeStart: String, zipCodeEnd: String, cepOrigem: String, modalidade: Number, weightStart: Number, weightEnd: Number) {
     
-    const response = await this.getFreightValue({
-      frete: [
-        {
-          cepdes: zipCodeEnd,
-          cepori: cepOrigem,
-          cnpj: '02482104000',
-          modalidade: modalidade,
-          peso: (weightEnd / 1000),
-          tpentrega: 'D',
-          tpseguro: 'N',
-          vlcoleta: 0.0,
-          vldeclarado: 0.0,
-        },
-      ],
-    });
-    const hasError = this.handleResponseData(response.data);
-
-    if (hasError)
-        return <Boolean>false;
-
-    return <FreightFormat>this.hydrator.parse({
-      response: response.data.frete[0],
-      zipCodeStart:  zipCodeStart,
-      zipCodeEnd: zipCodeEnd,
-      weightEnd: weightEnd,
-      weightStart: weightStart,
-    });
+    try {
+      const response = await this.getFreightValue({
+        frete: [
+          {
+            cepdes: zipCodeEnd,
+            cepori: cepOrigem,
+            cnpj: '02482104000',
+            modalidade: modalidade,
+            peso: (weightEnd / 1000),
+            tpentrega: 'D',
+            tpseguro: 'N',
+            vlcoleta: 0.0,
+            vldeclarado: 0.0,
+          },
+        ],
+      });
+      const hasError = this.handleResponseData(response.data);
+  
+      if (hasError)
+          return <Boolean>false;
+  
+      return <FreightFormat>this.hydrator.parse({
+        response: response.data.frete[0],
+        zipCodeStart:  zipCodeStart,
+        zipCodeEnd: zipCodeEnd,
+        weightEnd: weightEnd,
+        weightStart: weightStart,
+      });
+    } catch(err) {
+      debug('Erro na requisição', err);
+      return false;
+    }
 
   }
 
@@ -63,7 +68,8 @@ export default class JadLogRepository implements CarriersRepositoryInterface {
 
   handleResponseData(responseData: any) {
    if (!!responseData.error) {
-       return true;
+      debug('Erro', responseData)
+      return true;
     }
     return false;
   }

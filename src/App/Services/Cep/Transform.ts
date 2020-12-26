@@ -22,10 +22,12 @@ export default class Transform {
 
     for (const faixa of faixasJson) {
       const faixaExistente = faixas.filter(
-        (faixaImportada: any) =>
-          faixa.ZipCodeStart == faixaImportada.ZipCodeStart,
-      );
-      if (faixaExistente.length == 0) {
+        (faixaImportada: any) => {
+          const faixaAtualTratada = (faixa.ZipCodeStart.length == 7) ? `${faixa.ZipCodeStart}0` : faixa.ZipCodeStart
+          return faixaAtualTratada == faixaImportada.ZipCodeStart
+        });
+      console.log(faixaExistente);
+      if (faixaExistente.length === 0) {
         faixas.push({
           ZipCodeStart: (faixa.ZipCodeStart.length == 7) ? `${faixa.ZipCodeStart}0` : faixa.ZipCodeStart,
           ZipCodeEnd: (faixa.ZipCodeEnd.length == 7) ? `${faixa.ZipCodeEnd}0` : faixa.ZipCodeEnd,

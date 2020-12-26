@@ -8,16 +8,23 @@ const debug = debugApp('app:ceps');
 import JadLogRepository from './App/Services/Carriers/JadLog/JadLogRepository';
 
 import CepTransform from './App/Services/Cep/Transform';
+import PesoTransform from './App/Services/Peso/Transform';
 import CalculaFrete from './App/Services/CalculaFrete';
 
 (async () => {
     //handleCep()
+    //handlePeso();
     handleTransportadoras();
 })();
 
-function handleCep() {
+async function handleCep() {
   const cep = new CepTransform();
-  debug(cep.handlePlanilha());
+  debug(await cep.handlePlanilha());
+}
+
+async function handlePeso() {
+  const peso = new PesoTransform();
+  debug(await peso.handleFaixasDePeso())
 }
 
 function handleTransportadoras() {
