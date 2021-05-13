@@ -12,7 +12,7 @@ import PesoTransform from './App/Services/Peso/Transform';
 import CalculaFrete from './App/Services/CalculaFrete';
 
 (async () => {
-    //handleCep()
+    //handleCep();
     //handlePeso();
     handleTransportadoras();
 })();
@@ -35,7 +35,7 @@ function handleTransportadoras() {
   calculaFrete.getValueFreight({
     cepOrigem: '36900025',
     cnpj: '02482104000105',
-    tipoDeFrete: 9,
+    tipoDeFrete: 3,
     valorDaColeta: 0.00
   });
 

@@ -1,6 +1,8 @@
 /* eslint-disable class-methods-use-this */
 import axios from 'axios';
 
+import rax from 'retry-axios';
+
 import debugApp from 'debug';
 
 const debug = debugApp('app:ceps');
@@ -19,7 +21,7 @@ export default class JadLogRepository implements CarriersRepositoryInterface {
   }
 
   async fetchValueFreight(zipCodeStart: String, zipCodeEnd: String, cepOrigem: String, modalidade: Number, weightStart: Number, weightEnd: Number) {
-    
+    rax.attach();
     try {
       const response = await this.getFreightValue({
         frete: [
@@ -37,7 +39,6 @@ export default class JadLogRepository implements CarriersRepositoryInterface {
         ],
       });
       const hasError = this.handleResponseData(response.data);
-  
       if (hasError)
           return <Boolean>false;
   
@@ -63,7 +64,17 @@ export default class JadLogRepository implements CarriersRepositoryInterface {
       },
     });
 
-    return api.post('embarcador/api/frete/valor', params);
+    return api.post('embarcador/api/frete/valor', {...params, 
+      raxConfig: {
+        retry: 5, // number of retry when facing 4xx or 5xx
+        noResponseRetries: 5, // number of retry when facing connection error
+        onRetryAttempt: err => {
+          const cfg = rax.getConfig(err);
+          console.log(`Retry attempt #${cfg.currentRetryAttempt}`); // track current trial
+        }
+      },
+      timeout: 50
+    });
   }
 
   handleResponseData(responseData: any) {

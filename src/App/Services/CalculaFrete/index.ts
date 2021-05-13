@@ -38,13 +38,14 @@ export default class CalculaFrete {
               cep.ZipCodeEnd, 
               cepOrigem,
               9, 
-              peso.weightStart, 
-              peso.weightEnd
+              peso.WeightStart, 
+              peso.WeightEnd
           );
+          //console.log(responseCarrier)
           if (responseCarrier == false) {
             this.setFaixaNaoImportada(cep.ZipCodeStart, cep.ZipCodeEnd)
           } else {
-            debug(`Faixa Importada Cep: ${cep.ZipCodeEnd} - Peso ${peso.weightEnd}`, );
+            debug(`Faixa Importada Cep: ${cep.ZipCodeEnd} - Peso ${peso.WeightEnd}`, );
             this.setFaixaImportada(<FreightFormat>responseCarrier);
           }
         }

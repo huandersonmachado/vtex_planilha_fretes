@@ -12,7 +12,7 @@ export default class Transform {
   }
 
   convertToJson(): Converter {
-    return csvtojson().fromFile(
+    return csvtojson({ delimiter: ';' }).fromFile(
       path.resolve(__dirname, './../../../dataset/faixaDePeso.csv'),
     );
   }
