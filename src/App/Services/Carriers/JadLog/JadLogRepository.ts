@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import axios from 'axios';
 
-import rax from 'retry-axios';
+import * as rax from 'retry-axios';
 
 import debugApp from 'debug';
 
@@ -21,7 +21,6 @@ export default class JadLogRepository implements CarriersRepositoryInterface {
   }
 
   async fetchValueFreight(zipCodeStart: String, zipCodeEnd: String, cepOrigem: String, modalidade: Number, weightStart: Number, weightEnd: Number) {
-    rax.attach();
     try {
       const response = await this.getFreightValue({
         frete: [
@@ -50,30 +49,32 @@ export default class JadLogRepository implements CarriersRepositoryInterface {
         weightStart: weightStart,
       });
     } catch(err) {
-      debug('Erro na requisição', err);
+      debug('Erro na requisição', err.code);
       return false;
     }
 
   }
 
   async getFreightValue(params: JadLogParamsInterface) {
-    const api = axios.create({
-      baseURL: 'http://www.jadlog.com.br',
+    const interceptorId = rax.attach();
+
+    return axios({
+      url:  'http://www.jadlog.com.br/embarcador/api/frete/valor',
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${process.env.JAD_LOG_TOKEN}`,
       },
-    });
-
-    return api.post('embarcador/api/frete/valor', {...params, 
+      data: params,
       raxConfig: {
         retry: 5, // number of retry when facing 4xx or 5xx
         noResponseRetries: 5, // number of retry when facing connection error
         onRetryAttempt: err => {
           const cfg = rax.getConfig(err);
-          console.log(`Retry attempt #${cfg.currentRetryAttempt}`); // track current trial
-        }
+          debug(`Retry attempt #${cfg.currentRetryAttempt}`); // track current trial
+        },
+        httpMethodsToRetry: ['GET', 'HEAD', 'OPTIONS', 'DELETE', 'PUT', 'POST'],
       },
-      timeout: 50
+      timeout: 30000
     });
   }
 
