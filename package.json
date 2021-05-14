@@ -23,15 +23,18 @@
   },
   "scripts": {
     "dev": "DEBUG=app:ceps ts-node-dev --respawn --transpile-only --ignore-watch  node_modules src/index.ts",
-    "devWin": "set DEBUG=app:ceps & ts-node-dev --respawn --transpile-only --ignore-watch  node_modules src/index.ts"
+    "devWin": "set DEBUG=app:ceps & ts-node-dev --respawn --transpile-only --ignore-watch  node_modules src/parallel.ts",
+    "geraPlanilha": "set DEBUG=app:ceps & ts-node-dev --respawn --transpile-only --ignore-watch  node_modules src/geraPlanilha.ts"
   },
   "dependencies": {
     "axios": "^0.21.0",
+    "axios-parallel": "^1.0.8",
     "csvtojson": "^2.0.10",
     "debug": "^4.3.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "module-alias": "^2.2.2",
+    "perf_hooks": "^0.0.1",
     "retry-axios": "^2.4.0"
   },
   "_moduleAliases": {
